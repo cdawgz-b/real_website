@@ -1,0 +1,231 @@
+/* --- Global Styles --- */
+body {
+    background-color: #df8bf0;
+    margin: 0;
+    padding: 60px 20px;
+    font-family: 'Courier New', monospace;
+    overflow-x: hidden;
+}
+
+#trigger:checked ~ .container {
+    min-height: 6000vh; /* Long track for the 'chase' */
+    display: block;
+}
+
+/* --- Double Layered Red Borders --- */
+.border-top, .border-right, .border-bottom, .border-left {
+    position: fixed; background-color: #8B0000; z-index: 1000;
+}
+.border-top { top: 0; left: 0; width: 0; height: 4px; animation: expandWidth 1.5s ease-out forwards; }
+.border-right { top: 0; right: 0; width: 4px; height: 0; animation: expandHeight 1.5s ease-out 1.5s forwards; }
+.border-bottom { bottom: 0; right: 0; width: 0; height: 4px; animation: expandWidth 1.5s ease-out 3s forwards; }
+.border-left { bottom: 0; left: 0; width: 4px; height: 0; animation: expandHeight 1.5s ease-out 4.5s forwards; }
+
+.border-top::after, .border-bottom::after { content: ''; position: absolute; left: 0; width: 100%; height: 4px; background-color: #8B0000; }
+.border-top::after { top: 8px; }
+.border-bottom::after { top: -8px; }
+.border-right::after, .border-left::after { content: ''; position: absolute; top: 0; width: 4px; height: 100%; background-color: #8B0000; }
+.border-right::after { left: -8px; }
+.border-left::after { left: 8px; }
+
+/* --- Deep Red Hearts --- */
+.corner-heart {
+    position: fixed; top: 20px; left: 20px; z-index: 1001; opacity: 0; transform: scale(0);
+    animation: heartAppear 0.8s ease-out 6s forwards, heartBeat 1.5s infinite 6.8s;
+}
+.corner-heart svg, .heart-button svg { fill: #8B0000; }
+
+/* --- Text Breathing Animation --- */
+@keyframes textBreathe {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.01); opacity: 0.85; }
+}
+
+.container { width: 100%; text-align: center; position: relative; }
+
+h1, h2, h3, h4, h5 {
+    color: #e725e7; overflow: hidden; margin: 0 auto 20px auto;
+    width: 0; border-right: 3px solid transparent; white-space: nowrap;
+}
+
+h1 { animation: typing 2s steps(20) 0s forwards, delete 1.5s steps(20) 5s forwards, switch 0s 6.5s forwards; }
+h2 { animation: typing 2s steps(20) 6.5s forwards, delete 1.5s steps(20) 13s forwards, switch 0s 14.5s forwards; }
+h5 { animation: typing 2s steps(20) 9s forwards, delete 1.5s steps(20) 13s forwards, switch 0s 14.5s forwards; }
+h3 { animation: typing 3s steps(30) 14.5s forwards; }
+h4 { animation: typing 3s steps(30) 18s forwards; }
+
+.heart-button {
+    display: inline-flex; padding: 20px 22px; background-color: #e8e8e8; 
+    border: 9px solid #ffe2e2; border-radius: 35px; opacity: 0; transform: scale(0);
+    animation: fadeInButton 1s ease-out 21s forwards, beatingHeart 1.2s infinite 22s;
+    cursor: pointer;
+}
+
+/* --- Poem & Sequence --- */
+.poem { display: none; width: 100%; }
+#trigger:checked ~ .container .poem { display: block; }
+#trigger:checked ~ .container h1, #trigger:checked ~ .container h2, 
+#trigger:checked ~ .container h3, #trigger:checked ~ .container h4, 
+#trigger:checked ~ .container h5, #trigger:checked ~ .container .heart-button { display: none !important; }
+
+.poem .line {
+    color: #e725e7; font-size: 1.2em; line-height: 1.8; margin: 0 auto;
+    width: 0; overflow: hidden; border-right: 3px solid transparent; white-space: nowrap;
+    animation-fill-mode: forwards;
+}
+
+/* Lines type out and then begin the breathing effect */
+#trigger:checked ~ .container .poem .line1 { animation: typeLine 2s steps(50) 0.5s forwards, textBreathe 4s ease-in-out 3s infinite; }
+#trigger:checked ~ .container .poem .line2 { animation: typeLine 2s steps(50) 2.5s forwards, textBreathe 4s ease-in-out 5s infinite; }
+#trigger:checked ~ .container .poem .line3 { animation: typeLine 2s steps(50) 4.5s forwards, textBreathe 4s ease-in-out 7s infinite; }
+#trigger:checked ~ .container .poem .line4 { animation: typeLine 2s steps(50) 6.5s forwards, textBreathe 4s ease-in-out 9s infinite; }
+#trigger:checked ~ .container .poem .line5 { animation: typeLine 2s steps(50) 8.5s forwards, textBreathe 4s ease-in-out 11s infinite; }
+#trigger:checked ~ .container .poem .line6 { animation: typeLine 2s steps(50) 10.5s forwards, textBreathe 4s ease-in-out 13s infinite; }
+#trigger:checked ~ .container .poem .line7 { animation: typeLine 2s steps(50) 12.5s forwards, textBreathe 4s ease-in-out 15s infinite; }
+#trigger:checked ~ .container .poem .line8 { animation: typeLine 2s steps(50) 14.5s forwards, textBreathe 4s ease-in-out 17s infinite; }
+#trigger:checked ~ .container .poem .line9 { animation: typeLine 2s steps(50) 16.5s forwards, textBreathe 4s ease-in-out 19s infinite; }
+#trigger:checked ~ .container .poem .line10 { animation: typeLine 2s steps(50) 18.5s forwards, textBreathe 4s ease-in-out 21s infinite; }
+
+/* Finale Line: Slowed Down per request */
+#trigger:checked ~ .container .poem .line12 { 
+    animation: typeLine 6s steps(70) 21.5s forwards, textBreathe 4s ease-in-out 28s infinite; 
+}
+
+/* --- Buttons Area --- */
+.button-area { display: none; opacity: 0; margin-top: 50px; }
+#trigger:checked ~ .container .poem .button-area {
+    display: block; animation: fadeInButtons 1s ease-out 28s forwards;
+}
+
+/* YES Button Pulse Animation */
+@keyframes pulseYes {
+    0% { box-shadow: 0 0 0 0 rgba(139, 0, 0, 0.4); transform: scale(1); }
+    70% { box-shadow: 0 0 0 15px rgba(139, 0, 0, 0); transform: scale(1.05); }
+    100% { box-shadow: 0 0 0 0 rgba(139, 0, 0, 0); transform: scale(1); }
+}
+
+.btn-53, .btn-54 {
+    border-radius: 999px; font-weight: 900; overflow: hidden; padding: 2rem 3rem; 
+    position: relative; text-transform: uppercase; font-size: 1.5rem; 
+    width: 450px; /* Longer Width */
+    border: 1px solid #8B0000;
+}
+
+.btn-53 { 
+    margin: 0 auto 150px auto; z-index: 50; 
+    background: #d72cdd; color: #eec3ee; cursor: pointer;
+    animation: pulseYes 2s infinite; 
+}
+
+.btn-54 { 
+    background: #5f5757; color: #474447; pointer-events: none; opacity: 0.7; border: none; 
+}
+
+/* --- The Chase Track --- */
+.no-scroll-track {
+    width: 100%; height: 5500vh; position: relative; margin-top: 100px;
+}
+
+.no-scroll-trap {
+    position: sticky; 
+    top: 92.9vh; /* Peeking visibility */
+    width: 100%; display: flex; flex-direction: column; align-items: center;
+}
+
+.trap-hint { 
+    color: #8B0000; font-style: italic; opacity: 0.8; 
+    margin-bottom: 5px; transform: translateY(-10px);
+}
+
+/* Button Internal Effects */
+.btn-53 .original, .btn-54 .original {
+    position: absolute; inset: 0; display: grid; place-content: center;
+    transition: transform 0.2s cubic-bezier(0.87, 0, 0.13, 1);
+}
+.btn-53:hover .original { transform: translateY(100%); }
+.btn-53 .letters, .btn-54 .letters { display: inline-flex; }
+.btn-53 span { opacity: 0; transform: translateY(-15px); transition: 0.2s; }
+.btn-53:hover span { opacity: 1; transform: translateY(0); }
+
+/* --- Keyframes --- */
+@keyframes expandWidth { to { width: 100%; } }
+@keyframes expandHeight { to { height: 100%; } }
+@keyframes heartAppear { to { opacity: 1; transform: scale(1); } }
+@keyframes heartBeat { 0%, 50%, 100% { transform: scale(1); } 25% { transform: scale(1.15); } }
+@keyframes typing { from { width: 0; } to { width: 100%; } }
+@keyframes delete { from { width: 100%; } to { width: 0; } }
+@keyframes switch { to { display: none; height: 0; } }
+@keyframes fadeInButton { to { opacity: 1; transform: scale(1); } }
+@keyframes beatingHeart { 0%, 30%, 60% { transform: scale(1); } 15%, 45% { transform: scale(1.1); } }
+@keyframes typeLine { from { width: 0; } to { width: 100%; } }
+@keyframes fadeInButtons { to { opacity: 1; } }
+
+/* --- Celebration Overlay --- */
+#celebration-screen {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.9); display: none;
+    flex-direction: column; align-items: center; justify-content: center;
+    z-index: 2000;
+}
+#celebration-screen.active { display: flex; }
+
+#fireworksCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.close-celebration {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(139, 0, 0, 0.8);
+    color: white;
+    border: 2px solid #ff69b4;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.close-celebration:hover {
+    background: rgba(139, 0, 0, 1);
+    transform: scale(1.1);
+}
+
+.victory-text { 
+    color: #ff69b4; 
+    font-size: 3rem; 
+    margin-top: 30px; 
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    animation: victoryPulse 1.5s ease-in-out infinite;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+}
+
+#victory-gif { 
+    width: 80%; 
+    max-width: 500px; 
+    border-radius: 20px; 
+    border: 4px solid #8B0000;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 0 30px rgba(255, 105, 180, 0.6);
+}
+
+@keyframes victoryPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
